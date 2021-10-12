@@ -1,0 +1,4 @@
+Bundle-Name: External Search API
+Bundle-SymbolicName: com.github.lgdd.liferay.external.search.api
+Bundle-Version: 1.0.0
+Export-Package: com.github.lgdd.liferay.external.search.api

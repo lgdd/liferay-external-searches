@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<portlet-preferences>
+  <preference>
+    <name>displayStyle</name>
+    <value>basic</value>
+  </preference>
+  <preference>
+    <name>displayStyleGroupId</name>
+    <value>0</value>
+  </preference>
+  <preference>
+    <name>externalSearchEngine</name>
+    <value></value>
+  </preference>
+</portlet-preferences>

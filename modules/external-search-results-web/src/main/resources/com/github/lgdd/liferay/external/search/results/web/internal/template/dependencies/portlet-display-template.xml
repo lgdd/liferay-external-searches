@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<root>
+  <template>
+    <template-key>external-search-results-basic-ftl</template-key>
+    <name>Basic Template</name>
+    <description>portlet-display-template-description-basic</description>
+    <language>ftl</language>
+    <script-file>com/github/lgdd/liferay/external/search/results/web/internal/template/dependencies/portlet_display_template_basic.ftl</script-file>
+    <cacheable>false</cacheable>
+  </template>
+  <template>
+    <template-key>external-search-results-reddit-ftl</template-key>
+    <name>Reddit Results Template</name>
+    <description>Adapted to display Reddit search results with subreddit name and ups.</description>
+    <language>ftl</language>
+    <script-file>com/github/lgdd/liferay/external/search/results/web/internal/template/dependencies/portlet_display_template_reddit.ftl</script-file>
+    <cacheable>false</cacheable>
+  </template>
+  <template>
+    <template-key>external-search-results-stackoverflow-ftl</template-key>
+    <name>Stack Overflow Results Template</name>
+    <description>Adapted to display Stack Overflow results with answered status and tags associated.</description>
+    <language>ftl</language>
+    <script-file>com/github/lgdd/liferay/external/search/results/web/internal/template/dependencies/portlet_display_template_stackoverflow.ftl</script-file>
+    <cacheable>false</cacheable>
+  </template>
+</root>
