@@ -5,12 +5,8 @@ import com.github.lgdd.liferay.external.search.api.ExternalSearch;
 import com.github.lgdd.liferay.external.search.results.web.constants.ExternalSearchResultsWebKeys;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.osgi.service.component.annotations.Component;
@@ -32,7 +28,7 @@ public class ExternalSearchResultsConfigurationAction
     httpServletRequest.setAttribute(
         "externalSearchEngines",
         externalSearches.stream()
-                        .map(externalSearch -> externalSearch.getEngineName())
+                        .map(ExternalSearch::getEngineName)
                         .sorted()
                         .collect(Collectors.toList())
     );

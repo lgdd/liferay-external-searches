@@ -13,4 +13,8 @@
     <name>externalSearchEngine</name>
     <value></value>
   </preference>
+  <preference>
+    <name>searchOptions</name>
+    <value></value>
+  </preference>
 </portlet-preferences>

@@ -4,6 +4,7 @@ import com.github.lgdd.liferay.external.search.api.ExternalSearch;
 import com.github.lgdd.liferay.external.search.api.ExternalSearchException;
 import com.github.lgdd.liferay.external.search.api.ExternalSearchResult;
 import com.github.lgdd.liferay.external.search.results.web.constants.ExternalSearchResultsWebKeys;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
@@ -12,7 +13,9 @@ import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchRe
 import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -58,15 +61,17 @@ public class ExternalSearchResultsWebPortlet
                           .findFirst();
       if (externalSearch.isPresent()) {
 
-        final PortletSharedSearchResponse searchResponse = _sharedSearchRequest.search(renderRequest);
+        final PortletSharedSearchResponse searchResponse = _sharedSearchRequest
+            .search(renderRequest);
         final String query = searchResponse.getSearchResponse().getRequest().getQueryString();
 
         if (Validator.isNotNull(query)) {
           try {
             final ThemeDisplay themeDisplay =
                 (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+            final Map<String, String> searchOptions = _getSearchOptionsFromPrefs(preferences);
             final List<ExternalSearchResult> searchResults =
-                externalSearch.get().search(query, themeDisplay.getLocale());
+                externalSearch.get().search(query, themeDisplay.getLocale(), searchOptions);
             renderRequest
                 .setAttribute(ExternalSearchResultsWebKeys.ATTR_SEARCH_RESULTS, searchResults);
           } catch (ExternalSearchException e) {
@@ -86,6 +91,25 @@ public class ExternalSearchResultsWebPortlet
     }
 
     super.render(renderRequest, renderResponse);
+  }
+
+  private Map<String, String> _getSearchOptionsFromPrefs(PortletPreferences preferences) {
+
+    final Map<String, String> searchOptionsMap = new HashMap<>();
+    final String searchOptions = preferences.getValue("searchOptions", null);
+
+    if (searchOptions != null) {
+      final String[] searchOptionArray = searchOptions.split(StringPool.NEW_LINE);
+
+      for (String option : searchOptionArray) {
+        final String[] optionKeyValue = option.split(StringPool.EQUAL);
+        if (optionKeyValue.length == 2) {
+          searchOptionsMap.put(optionKeyValue[0], optionKeyValue[1]);
+        }
+      }
+    }
+
+    return searchOptionsMap;
   }
 
   private static final Logger _log = LoggerFactory.getLogger(ExternalSearchResultsWebPortlet.class);

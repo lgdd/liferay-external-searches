@@ -1,8 +1,8 @@
 <%@ page
         import="com.github.lgdd.liferay.external.search.results.web.internal.portlet.ExternalSearchResultsWebPortlet" %>
-<%@ page import="com.liferay.portal.kernel.util.PortalUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.Constants" %>
 <%@ page import="com.liferay.petra.string.StringPool" %>
+<%@ page import="com.liferay.portal.kernel.util.Constants" %>
+<%@ page import="com.liferay.portal.kernel.util.PortalUtil" %>
 <%@ include file="init.jsp" %>
 
 <%
@@ -12,6 +12,11 @@
     String externalSearchEngine =
             PrefsParamUtil.getString(
                     portletPreferences, request, "externalSearchEngine", null
+            );
+
+    String searchOptions =
+            PrefsParamUtil.getString(
+                    portletPreferences, request, "searchOptions", null
             );
 %>
 
@@ -63,6 +68,20 @@
                                 }
                             %>
                         </aui:select>
+                    </liferay-frontend:fieldset>
+                </liferay-frontend:fieldset-group>
+            </clay:col>
+            <clay:col md="12">
+                <liferay-frontend:fieldset-group>
+                    <liferay-frontend:fieldset>
+                        <aui:input
+                                label="Search Options"
+                                name="preferences--searchOptions--"
+                                helpMessage="external-search-results-web.pref-search-option-help"
+                                type="textarea"
+                                placeholder='<%= "limit=5\nsort=relevance" %>'
+                                value="<%= searchOptions %>">
+                        </aui:input>
                     </liferay-frontend:fieldset>
                 </liferay-frontend:fieldset-group>
             </clay:col>
