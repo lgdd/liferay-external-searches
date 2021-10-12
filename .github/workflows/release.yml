@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+  publish_modules:
+    name: Publish Modules
+    needs: create_release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [8, 11]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        id: setup_jdk
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Cache Gradle packages
+        id: cache_gradle_packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build Gradle
+        id: build_gradle
+        run: ./gradlew deploy
+      - name: Package Modules
+        id: package_modules
+        run: zip --junk-paths modules.zip bundles/deploy/* bundles/osgi/modules/*
+      - name: Upload Modules
+        id: upload_modules
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: modules.zip
+          asset_name: ${{ github.event.repository.name }}-modules-jdk${{ matrix.java  }}.zip
+          asset_content_type: application/zip
+      - name: Rollback Release
+        if: failure() && needs.create_release.outputs.id != ''
+        uses: author/action-rollback@stable
+        with:
+          id: ${{ needs.create_release.id }}
+          tag: ${{ github.ref }}
