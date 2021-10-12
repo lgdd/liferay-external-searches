@@ -1,5 +1,6 @@
 package com.github.lgdd.liferay.external.search.service;
 
+import com.github.lgdd.liferay.external.search.api.BaseExternalSearch;
 import com.github.lgdd.liferay.external.search.api.ExternalSearch;
 import java.util.HashMap;
 import java.util.Map;

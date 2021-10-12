@@ -2,3 +2,13 @@ Bundle-Name: External Search API
 Bundle-SymbolicName: com.github.lgdd.liferay.external.search.api
 Bundle-Version: 1.0.0
 Export-Package: com.github.lgdd.liferay.external.search.api
+Import-Package:\
+	!android.*,\
+	org.conscrypt;resolution:=optional,\
+	com.google.gson;resolution:=optional,\
+	com.google.gson.reflect;resolution:=optional,\
+	javax.annotation.meta;resolution:=optional,\
+	org.apache.tapestry5.json;resolution:=optional,\
+	org.codehaus.jettison.json;resolution:=optional,\
+	org.slf4j.impl;resolution:=optional,\
+	*

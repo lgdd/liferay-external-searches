@@ -1,8 +1,5 @@
-package com.github.lgdd.liferay.external.search.service;
+package com.github.lgdd.liferay.external.search.api;
 
-import com.github.lgdd.liferay.external.search.api.ExternalSearch;
-import com.github.lgdd.liferay.external.search.api.ExternalSearchException;
-import com.github.lgdd.liferay.external.search.api.ExternalSearchResult;
 import com.jayway.jsonpath.JsonPath;
 import java.io.IOException;
 import java.util.ArrayList;
